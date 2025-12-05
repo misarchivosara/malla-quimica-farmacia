@@ -1,38 +1,38 @@
-/* --- Variables de la Paleta "Pink Lover" (Intensa) --- */
+/* --- Variables Aesthetic Pink --- */
 :root {
-    /* COLORES DE LAS ÁREAS (Más notorios) */
+    /* COLORES DE ÁREAS (Intensos y diferenciados) */
     --color-disciplinar: #ffc2d4;  /* Rosa Chicle */
     --color-profesional: #ff9eb5;  /* Fucsia Suave */
-    --color-gestion:     #fdd0b1;  /* Durazno/Melocotón */
+    --color-gestion:     #fdd0b1;  /* Durazno */
     --color-integral:    #e0c3fc;  /* Lila Lavanda */
     
-    /* COLORES DE TEXTO PARA CADA ÁREA (Para que se lea bien) */
+    /* COLORES DE TEXTO (Para que se lean bien sobre el fondo) */
     --text-disciplinar:  #8b4058;
     --text-profesional:  #8a2c45;
     --text-gestion:      #8a4b2c;
     --text-integral:     #5e3a75;
 
-    /* OTROS COLORES */
-    --rose-gold: #d48ba0;      /* Bordes */
-    --fucsia-pop: #e91e63;     /* Títulos fuertes */
-    --texto-general: #6d4c57;  /* Texto general */
+    /* ACENTOS */
+    --rose-gold: #d48ba0;      /* Bordes elegantes */
+    --fucsia-pop: #e91e63;     /* Títulos y destaques */
+    --texto-general: #6d4c57;
     --locked-gray: #e8dee0;    /* Gris rosado para bloqueados */
 }
 
-/* --- Estilos Generales --- */
+/* --- Base --- */
 body {
     font-family: 'Poppins', sans-serif;
     color: var(--texto-general);
     margin: 0;
     padding: 30px;
     
-    /* --- FONDO ROSA CON PUNTITOS BLANCOS (Polka Dots) --- */
-    background-color: #ffeff5; /* Color base rosa */
-    background-image: radial-gradient(circle, #ffffff 20%, transparent 20%);
-    background-size: 25px 25px; /* Tamaño y separación de los puntitos */
+    /* FONDO DE LUNARES (Polka Dots) */
+    background-color: #ffeff5; 
+    background-image: radial-gradient(circle, #ffffff 25%, transparent 25%);
+    background-size: 25px 25px; 
 }
 
-/* --- Header y Paneles --- */
+/* --- Header --- */
 header {
     text-align: center;
     margin-bottom: 50px;
@@ -41,33 +41,34 @@ header {
 h1 {
     color: var(--fucsia-pop);
     font-weight: 800;
-    margin-bottom: 30px;
-    font-size: 2.2rem;
-    background: rgba(255, 255, 255, 0.8);
+    font-size: 2rem;
+    background: rgba(255, 255, 255, 0.9);
     display: inline-block;
-    padding: 10px 30px;
+    padding: 15px 40px;
     border-radius: 50px;
-    box-shadow: 0 5px 15px rgba(233, 30, 99, 0.1);
+    box-shadow: 0 5px 15px rgba(233, 30, 99, 0.15);
+    border: 2px solid #fff;
 }
 
-/* Panel de Estadísticas */
+/* --- Panel de Estadísticas --- */
 .panel-stats {
     display: flex;
     gap: 25px;
     justify-content: center;
     flex-wrap: wrap;
     max-width: 850px;
-    margin: 0 auto 35px auto;
+    margin: 30px auto;
 }
 
 .stat-card {
     background: #fff;
     padding: 25px;
     border-radius: 25px;
-    box-shadow: 0 10px 25px rgba(216, 67, 120, 0.15); /* Sombra más marcada */
+    box-shadow: 0 10px 25px rgba(216, 67, 120, 0.15);
     flex: 1;
-    min-width: 260px;
-    border: 3px solid #fff0f5; /* Borde doble suave */
+    min-width: 280px;
+    border: 4px solid #fff0f5; 
+    text-align: center;
 }
 
 .stat-titulo {
@@ -75,7 +76,7 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 2px;
     color: var(--rose-gold);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-weight: 700;
 }
 
@@ -83,14 +84,20 @@ h1 {
     font-size: 2.5rem;
     font-weight: 800;
     color: var(--fucsia-pop);
-    margin-bottom: 5px;
 }
 
-.stat-detalle { margin-top: 10px; font-size: 0.85rem; color: var(--texto-general); }
+.stat-total { font-size: 1rem; color: #b0aeb0; }
 
-/* Barras de Progreso */
+.stat-detalle { 
+    margin-top: 10px; 
+    font-size: 0.85rem; 
+    color: var(--texto-general); 
+    font-weight: 600;
+}
+
+/* Barras */
 .barra-contenedor {
-    height: 16px;
+    height: 14px;
     background-color: #fce4ec;
     border-radius: 15px;
     overflow: hidden;
@@ -106,7 +113,7 @@ h1 {
 .barra-relleno.azul { background: linear-gradient(90deg, #f8bbd0, #ec407a); }
 .barra-relleno.rosa { background: linear-gradient(90deg, #e1bee7, #ab47bc); }
 
-/* --- Leyenda de Colores (Estilo Cápsula) --- */
+/* --- Leyenda --- */
 .leyenda-colores {
     display: flex;
     justify-content: center;
@@ -115,28 +122,26 @@ h1 {
     font-size: 0.9rem;
     font-weight: 600;
     background: #fff;
-    padding: 15px 25px;
+    padding: 12px 25px;
     border-radius: 50px;
     max-width: 700px;
     margin: auto;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 .item-leyenda { display: flex; align-items: center; color: var(--texto-general); }
-.color-box { width: 16px; height: 16px; border-radius: 50%; margin-right: 8px; border: 2px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.color-box { width: 14px; height: 14px; border-radius: 50%; margin-right: 8px; border: 2px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-/* Colores de la leyenda */
 .color-box.azul { background: var(--color-disciplinar); }
 .color-box.amarillo { background: var(--color-profesional); }
 .color-box.durazno { background: var(--color-gestion); }
 .color-box.menta { background: var(--color-integral); }
 
-
-/* --- Contenedor Malla --- */
+/* --- Malla --- */
 .contenedor-malla {
     display: flex;
     gap: 30px;
     overflow-x: auto;
-    padding: 20px 20px 50px 20px;
+    padding: 20px 20px 60px 20px;
     scrollbar-width: thin;
     scrollbar-color: var(--fucsia-pop) #ffeff5;
 }
@@ -146,23 +151,23 @@ h1 {
     flex-direction: column;
     gap: 15px;
     min-width: 240px;
-    /* Fondo blanco semitransparente para que resalten los colores de los ramos */
-    background: rgba(255,255,255,0.7); 
+    background: rgba(255,255,255,0.7);
     padding: 15px;
     border-radius: 20px;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.9);
 }
 
 h3 {
     text-align: center;
-    color: var(--text-profesional);
+    color: var(--fucsia-pop);
     text-transform: uppercase;
     font-size: 0.9rem;
     margin-bottom: 5px;
     letter-spacing: 1px;
 }
 
-/* --- TARJETAS DE ASIGNATURAS --- */
+/* --- Asignaturas --- */
 .asignatura {
     padding: 15px;
     border-radius: 18px;
@@ -174,7 +179,7 @@ h3 {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 3px solid transparent; /* Borde transparente listo para el hover */
+    border: 3px solid transparent; 
 }
 
 .asignatura:hover {
@@ -183,7 +188,7 @@ h3 {
     z-index: 10;
 }
 
-/* --- Encabezado dentro del ramo (Código + Créditos) --- */
+/* Header interno (Código y Badge) */
 .encabezado-ramo {
     display: flex;
     justify-content: space-between;
@@ -201,10 +206,11 @@ h3 {
 
 .sct-badge {
     font-size: 0.65rem;
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255,255,255,0.6);
     padding: 2px 8px;
     border-radius: 10px;
     font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.8);
 }
 
 h4 {
@@ -214,36 +220,31 @@ h4 {
     line-height: 1.25;
 }
 
-/* --- COLORES NOTORIOS POR CATEGORÍA --- */
-
-/* Disciplinar: Rosa Chicle */
+/* --- COLORES APLICADOS --- */
 .asignatura.cat-disciplinar { background-color: var(--color-disciplinar); color: var(--text-disciplinar); }
 .asignatura.cat-disciplinar .sct-badge { color: var(--text-disciplinar); }
 
-/* Profesional: Fucsia Suave */
 .asignatura.cat-profesional { background-color: var(--color-profesional); color: var(--text-profesional); }
 .asignatura.cat-profesional .sct-badge { color: var(--text-profesional); }
 
-/* Gestión: Durazno */
 .asignatura.cat-gestion { background-color: var(--color-gestion); color: var(--text-gestion); }
 .asignatura.cat-gestion .sct-badge { color: var(--text-gestion); }
 
-/* Integral: Lila */
 .asignatura.cat-integral { background-color: var(--color-integral); color: var(--text-integral); }
 .asignatura.cat-integral .sct-badge { color: var(--text-integral); }
 
 
-/* --- ESTADO: APROBADA (Corazón y Borde Blanco) --- */
+/* --- APROBADO --- */
 .asignatura.aprobada {
-    border-color: #fff; /* Borde blanco grueso */
-    box-shadow: 0 0 15px rgba(255, 105, 180, 0.4); /* Resplandor rosa */
-    background-image: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0));
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+    background-image: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0));
 }
 
 .asignatura.aprobada::after {
-    content: '💖';
+    content: '✅';
     position: absolute;
-    top: -8px; /* El corazón flota un poquito afuera */
+    top: -8px;
     right: -8px;
     font-size: 1.5rem;
     animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -254,15 +255,15 @@ h4 {
     100% { transform: scale(1); }
 }
 
-/* --- ESTADO: BLOQUEADA --- */
+/* --- BLOQUEADO --- */
 .asignatura.bloqueada {
     background-color: var(--locked-gray) !important;
     color: #b0aeb0 !important;
-    opacity: 0.8;
+    opacity: 0.85;
     pointer-events: none;
-    filter: grayscale(0.5);
+    filter: grayscale(0.4);
 }
-.asignatura.bloqueada .sct-badge { display: none; } /* Ocultamos créditos si está bloqueado para limpiar */
+.asignatura.bloqueada .sct-badge { display: none; }
 .asignatura.bloqueada::after {
     content: '🔒';
     position: absolute;
