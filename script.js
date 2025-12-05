@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Definimos las variables principales
     const asignaturas = document.querySelectorAll('.asignatura');
     const contadorSCT = document.getElementById('contador-sct');
     const barraSCT = document.getElementById('progreso-sct');
@@ -6,55 +7,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const barraMalla = document.getElementById('progreso-malla');
     const ramosAprobadosTexto = document.getElementById('ramos-aprobados');
     
-    // Total aproximado de créditos (ajustable según tu malla real)
-    const totalSCT = 300; 
+    const totalSCT = 300; // Ajusta este número si tu malla tiene otro total
 
-    // 1. PRIMERO: Cargar lo que tenías guardado
+    // 2. ¡IMPORTANTE! Primero cargamos la memoria
     cargarProgreso();
 
-    // 2. LUEGO: Calcular bloqueos y estadísticas iniciales
+    // 3. Calculamos todo lo demás
     actualizarEstadoBloqueos();
     actualizarProgreso();
 
-    // Eventos Click
+    // 4. Asignamos los clicks
     asignaturas.forEach(asignatura => {
         asignatura.addEventListener('click', () => {
-            toggleAsignatura(asignatura);
+            // Si tiene candado, no hacemos nada
+            if (asignatura.classList.contains('bloqueada')) return;
+
+            // Marcamos o desmarcamos
+            asignatura.classList.toggle('aprobada');
+            
+            // GUARDAMOS INMEDIATAMENTE
+            guardarProgreso();
+            
+            // Actualizamos visuales
+            actualizarEstadoBloqueos();
+            actualizarProgreso();
         });
     });
 
-    function toggleAsignatura(elemento) {
-        // Seguridad: si está bloqueada, no hacer nada
-        if (elemento.classList.contains('bloqueada')) return;
-
-        elemento.classList.toggle('aprobada');
-        
-        // Cada vez que cambiamos algo, GUARDAMOS y actualizamos
-        guardarProgreso();
-        actualizarEstadoBloqueos();
-        actualizarProgreso();
-    }
-
-    // --- FUNCIONES DE MEMORIA (LOCALSTORAGE) ---
+    // --- FUNCIONES DE MEMORIA (MAGIA) ---
 
     function guardarProgreso() {
-        const aprobadas = [];
-        // Buscamos todas las que tienen la clase 'aprobada' y guardamos su ID
-        document.querySelectorAll('.asignatura.aprobada').forEach(elemento => {
-            aprobadas.push(elemento.id);
+        const listaIDs = [];
+        const asignaturasAprobadas = document.querySelectorAll('.asignatura.aprobada');
+
+        asignaturasAprobadas.forEach(elemento => {
+            // Solo guardamos si tiene ID (Evita errores)
+            if (elemento.id) {
+                listaIDs.push(elemento.id);
+            }
         });
-        // Guardamos esa lista en el navegador
-        localStorage.setItem('malla_ara_progreso', JSON.stringify(aprobadas));
+
+        // Guardamos en la memoria del navegador
+        localStorage.setItem('malla_ara_v1', JSON.stringify(listaIDs));
+        console.log("Progreso guardado:", listaIDs); // Para verificar en consola
     }
 
     function cargarProgreso() {
-        // Leemos la lista guardada
-        const guardado = JSON.parse(localStorage.getItem('malla_ara_progreso'));
+        // Buscamos si hay algo guardado
+        const datosGuardados = localStorage.getItem('malla_ara_v1');
         
-        if (guardado) {
-            guardado.forEach(id => {
+        if (datosGuardados) {
+            const listaIDs = JSON.parse(datosGuardados);
+            
+            // Recorremos la lista guardada y marcamos los ramos
+            listaIDs.forEach(id => {
                 const elemento = document.getElementById(id);
-                // Si el elemento existe, le ponemos la clase aprobada
                 if (elemento) {
                     elemento.classList.add('aprobada');
                 }
@@ -62,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- LÓGICA DE REQUISITOS Y ESTADÍSTICAS ---
+    // --- FUNCIONES DE LÓGICA ---
 
     function actualizarEstadoBloqueos() {
         asignaturas.forEach(asignatura => {
@@ -73,7 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 let requisitosCumplidos = true;
 
                 listaRequisitos.forEach(reqID => {
-                    const asignaturaRequisito = document.getElementById(reqID.trim());
+                    const idLimpio = reqID.trim(); // Quitamos espacios extra
+                    const asignaturaRequisito = document.getElementById(idLimpio);
+                    
+                    // Si el requisito no existe o no está aprobado
                     if (!asignaturaRequisito || !asignaturaRequisito.classList.contains('aprobada')) {
                         requisitosCumplidos = false;
                     }
@@ -81,8 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (!requisitosCumplidos) {
                     asignatura.classList.add('bloqueada');
-                    // Si se bloquea, nos aseguramos que no esté marcada como aprobada
-                    asignatura.classList.remove('aprobada');
+                    asignatura.classList.remove('aprobada'); // Si se bloquea, se desmarca
                 } else {
                     asignatura.classList.remove('bloqueada');
                 }
@@ -91,40 +100,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function actualizarProgreso() {
-        // 1. Créditos SCT
         let sctAprobados = 0;
         const asignaturasAprobadas = document.querySelectorAll('.asignatura.aprobada');
         
         asignaturasAprobadas.forEach(asignatura => {
-            sctAprobados += parseInt(asignatura.getAttribute('data-sct'));
+            // Verificamos que el data-sct exista para que no de error
+            const sct = parseInt(asignatura.getAttribute('data-sct'));
+            if (!isNaN(sct)) {
+                sctAprobados += sct;
+            }
         });
         
-        animateValue(contadorSCT, parseInt(contadorSCT.innerText), sctAprobados, 400);
+        // Animación y Barras
+        if(contadorSCT) contadorSCT.innerText = sctAprobados;
         
         const porcentajeSCT = (sctAprobados / totalSCT) * 100;
-        barraSCT.style.width = porcentajeSCT + "%";
+        if(barraSCT) barraSCT.style.width = porcentajeSCT + "%";
 
-        // 2. Avance Malla
         const totalRamos = asignaturas.length;
         const ramosAprobados = asignaturasAprobadas.length;
-        const porcentajeMalla = (ramosAprobados / totalRamos) * 100;
+        const porcentajeMalla = totalRamos > 0 ? (ramosAprobados / totalRamos) * 100 : 0;
 
-        contadorPorcentaje.innerText = porcentajeMalla.toFixed(1) + "%";
-        ramosAprobadosTexto.innerText = ramosAprobados;
-        barraMalla.style.width = porcentajeMalla + "%";
-    }
-
-    function animateValue(obj, start, end, duration) {
-        if (start === end) return;
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            obj.innerText = Math.floor(progress * (end - start) + start);
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            }
-        };
-        window.requestAnimationFrame(step);
+        if(contadorPorcentaje) contadorPorcentaje.innerText = porcentajeMalla.toFixed(1) + "%";
+        if(ramosAprobadosTexto) ramosAprobadosTexto.innerText = ramosAprobados;
+        if(barraMalla) barraMalla.style.width = porcentajeMalla + "%";
     }
 });
