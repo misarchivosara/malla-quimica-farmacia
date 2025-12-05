@@ -1,28 +1,29 @@
-/* --- Variables Aesthetic Pink (Paleta Renovada) --- */
+/* --- Variables Aesthetic Pink (Ajuste Perfecto) --- */
 :root {
-    /* --- COLORES DE ÁREAS (Mayor Contraste) --- */
+    /* --- COLORES DE ÁREAS --- */
     
-    /* Disciplinar: Rosa Bebé (Suave y tierno) */
-    --color-disciplinar: #ffe4e9;  
-    --text-disciplinar:  #8b4058;
+    /* Disciplinar: Rosa Nube (Muy clarito, casi blanco) */
+    --color-disciplinar: #fff0f5;  
+    --text-disciplinar:  #9c4866; 
 
-    /* Profesional: Rosa "Mauve" / Palo de Rosa (Más elegante y oscuro) */
-    --color-profesional: #d8aeb7;  
-    --text-profesional:  #6d2e38; /* Texto más oscuro para que se lea bien */
+    /* PROFESIONAL: Rosa "Cherry" (Más oscuro que el anterior, pero pastel) */
+    /* Mantenemos letra oscura, no blanca */
+    --color-profesional: #ffb7c5;  
+    --text-profesional:  #8a2c45; /* Color vino tinto para que resalte */
 
-    /* Gestión: Durazno (Cálido) */
-    --color-gestion:     #fdd0b1;  
-    --text-gestion:      #8a4b2c;
+    /* Gestión: Durazno suave */
+    --color-gestion:     #ffe5d4;  
+    --text-gestion:      #9c5836;
 
-    /* Integral: Lila Lavanda (Diferente) */
-    --color-integral:    #e0c3fc;  
-    --text-integral:     #5e3a75;
+    /* Integral: Lila suave */
+    --color-integral:    #eaddff;  
+    --text-integral:     #63458a;
 
     /* ACENTOS */
-    --rose-gold: #c58c98;      /* Un tono oro rosa más metálico */
-    --fucsia-pop: #d84378;     /* Títulos */
+    --rose-gold: #c58c98;
+    --fucsia-pop: #d84378;     
     --texto-general: #6d4c57;
-    --locked-gray: #e8dee0;
+    --locked-gray: #ece3e6;
 }
 
 /* --- Base --- */
@@ -33,9 +34,9 @@ body {
     padding: 30px;
     
     /* FONDO DE LUNARES (Polka Dots) */
-    background-color: #fff0f6; 
-    background-image: radial-gradient(circle, #ffffff 30%, transparent 30%);
-    background-size: 30px 30px; /* Puntitos un poco más grandes */
+    background-color: #fff5f8; 
+    background-image: radial-gradient(circle, #ffffff 40%, transparent 40%);
+    background-size: 30px 30px;
 }
 
 /* --- Header --- */
@@ -48,11 +49,11 @@ h1 {
     color: var(--fucsia-pop);
     font-weight: 800;
     font-size: 2.2rem;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     display: inline-block;
     padding: 15px 40px;
     border-radius: 50px;
-    box-shadow: 0 8px 20px rgba(216, 67, 120, 0.15);
+    box-shadow: 0 8px 20px rgba(214, 90, 131, 0.2);
     border: 3px solid #fff;
 }
 
@@ -89,7 +90,7 @@ h1 {
 .stat-valor {
     font-size: 2.5rem;
     font-weight: 800;
-    color: var(--text-profesional);
+    color: var(--fucsia-pop);
 }
 
 .stat-total { font-size: 1rem; color: #b0aeb0; }
@@ -116,8 +117,8 @@ h1 {
     transition: width 0.8s ease-in-out;
     border-radius: 15px;
 }
-.barra-relleno.azul { background: linear-gradient(90deg, #ffc2d4, #d84378); } /* Rosa fuerte */
-.barra-relleno.rosa { background: linear-gradient(90deg, #d8aeb7, #8e4d5b); } /* Rosa Mauve */
+.barra-relleno.azul { background: linear-gradient(90deg, #ffc2d4, #d84378); }
+.barra-relleno.rosa { background: linear-gradient(90deg, #ffb7c5, #d65a83); }
 
 /* --- Leyenda --- */
 .leyenda-colores {
@@ -166,7 +167,7 @@ h1 {
 
 h3 {
     text-align: center;
-    color: var(--text-profesional);
+    color: var(--fucsia-pop);
     text-transform: uppercase;
     font-size: 0.9rem;
     margin-bottom: 5px;
@@ -190,7 +191,7 @@ h3 {
 
 .asignatura:hover {
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     z-index: 10;
 }
 
@@ -206,7 +207,7 @@ h3 {
 .codigo {
     font-size: 0.7rem;
     font-weight: 800;
-    opacity: 0.8;
+    opacity: 0.9;
     text-transform: uppercase;
 }
 
@@ -216,7 +217,6 @@ h3 {
     padding: 2px 8px;
     border-radius: 10px;
     font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.5);
 }
 
 h4 {
@@ -226,17 +226,21 @@ h4 {
     line-height: 1.25;
 }
 
-/* --- COLORES APLICADOS --- */
+/* --- COLORES APLICADOS (Corregido: Letras oscuras) --- */
+
+/* Disciplinar: Muy claro */
 .asignatura.cat-disciplinar { background-color: var(--color-disciplinar); color: var(--text-disciplinar); }
 .asignatura.cat-disciplinar .sct-badge { color: var(--text-disciplinar); }
 
-/* PROFESIONAL: Ahora destaca más */
+/* PROFESIONAL: Rosado medio (No blanco, no oscuro) */
 .asignatura.cat-profesional { background-color: var(--color-profesional); color: var(--text-profesional); }
 .asignatura.cat-profesional .sct-badge { color: var(--text-profesional); }
 
+/* Gestión: Durazno */
 .asignatura.cat-gestion { background-color: var(--color-gestion); color: var(--text-gestion); }
 .asignatura.cat-gestion .sct-badge { color: var(--text-gestion); }
 
+/* Integral: Lila */
 .asignatura.cat-integral { background-color: var(--color-integral); color: var(--text-integral); }
 .asignatura.cat-integral .sct-badge { color: var(--text-integral); }
 
@@ -245,7 +249,7 @@ h4 {
 .asignatura.aprobada {
     border-color: #fff;
     box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
-    background-image: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0));
+    background-image: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0));
 }
 
 .asignatura.aprobada::after {
@@ -268,7 +272,7 @@ h4 {
     color: #b0aeb0 !important;
     opacity: 0.85;
     pointer-events: none;
-    filter: grayscale(0.4);
+    filter: grayscale(0.5);
 }
 .asignatura.bloqueada .sct-badge { display: none; }
 .asignatura.bloqueada::after {
