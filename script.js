@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- VARIABLES ---
     const asignaturas = document.querySelectorAll('.asignatura');
-    const semestres = document.querySelectorAll('.semestre'); // Para leer niveles
+    const semestres = document.querySelectorAll('.semestre'); 
+    
+    // Contadores visuales
     const contadorSCT = document.getElementById('contador-sct');
     const barraSCT = document.getElementById('progreso-sct');
     const contadorPorcentaje = document.getElementById('contador-porcentaje');
@@ -10,24 +12,101 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const totalSCT = 300; 
 
-    // --- INICIALIZACIÓN ---
-    cargarProgreso();            // 1. Recuperar memoria
-    actualizarEstadoBloqueos();  // 2. Revisar candados
-    actualizarProgreso();        // 3. Calcular barras
+    // --- INICIO ---
+    // 1. Cargamos memoria
+    cargarProgreso();
+    
+    // 2. Revisamos bloqueos INMEDIATAMENTE
+    actualizarEstadoBloqueos();
+    
+    // 3. Calculamos barras
+    actualizarProgreso();
 
     // --- EVENTOS CLICK ---
     asignaturas.forEach(asignatura => {
         asignatura.addEventListener('click', () => {
+            // Si está bloqueada, NO HACER NADA
             if (asignatura.classList.contains('bloqueada')) return;
 
+            // Marcar / Desmarcar
             asignatura.classList.toggle('aprobada');
             
-            // Guardar y Actualizar todo
+            // Guardar y Recalcular TODO
             guardarProgreso();
-            actualizarEstadoBloqueos();
+            actualizarEstadoBloqueos(); // <--- Aquí revisa si se abren los niveles
             actualizarProgreso();
         });
     });
+
+    // --- LÓGICA DE REQUISITOS (EL CEREBRO) ---
+    function actualizarEstadoBloqueos() {
+        asignaturas.forEach(asignatura => {
+            const requisitos = asignatura.getAttribute('data-requisito');
+
+            // Si no tiene requisitos, pasamos al siguiente
+            if (!requisitos) {
+                asignatura.classList.remove('bloqueada');
+                return;
+            }
+
+            const listaRequisitos = requisitos.split(',');
+            let cumpleTodo = true;
+
+            listaRequisitos.forEach(req => {
+                const idLimpio = req.trim();
+
+                // CASO 1: REQUISITO DE NIVEL COMPLETO (Ej: "NIVEL_6")
+                if (idLimpio.startsWith('NIVEL_')) {
+                    const numeroNivel = parseInt(idLimpio.split('_')[1]);
+                    // Si el nivel NO está completo, fallamos
+                    if (!verificarNivelCompleto(numeroNivel)) {
+                        cumpleTodo = false;
+                    }
+                } 
+                // CASO 2: REQUISITO DE RAMO ESPECÍFICO (Ej: "DQUI1045")
+                else {
+                    const ramoReq = document.getElementById(idLimpio);
+                    // Si el ramo no existe o no está aprobado, fallamos
+                    if (!ramoReq || !ramoReq.classList.contains('aprobada')) {
+                        cumpleTodo = false;
+                    }
+                }
+            });
+
+            // APLICAR RESULTADO
+            if (!cumpleTodo) {
+                asignatura.classList.add('bloqueada');
+                asignatura.classList.remove('aprobada'); // Si se bloquea, se desmarca
+            } else {
+                asignatura.classList.remove('bloqueada');
+            }
+        });
+    }
+
+    // --- VERIFICADOR DE NIVELES (NUEVO Y MEJORADO) ---
+    function verificarNivelCompleto(numeroNivel) {
+        // En programación los arreglos empiezan en 0. 
+        // Nivel 1 es el índice 0 del arreglo de semestres.
+        const indiceSemestre = numeroNivel - 1;
+        const semestreDiv = semestres[indiceSemestre];
+
+        // Seguridad: Si el semestre no existe, devolvemos falso
+        if (!semestreDiv) return false;
+
+        // Buscamos TODOS los ramos dentro de ese semestre
+        const ramosDelNivel = semestreDiv.querySelectorAll('.asignatura');
+        
+        let nivelEstaCompleto = true;
+
+        // Revisamos uno por uno
+        ramosDelNivel.forEach(ramo => {
+            if (!ramo.classList.contains('aprobada')) {
+                nivelEstaCompleto = false;
+            }
+        });
+
+        return nivelEstaCompleto;
+    }
 
     // --- MEMORIA (LocalStorage) ---
     function guardarProgreso() {
@@ -35,11 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.asignatura.aprobada').forEach(elemento => {
             if (elemento.id) listaIDs.push(elemento.id);
         });
-        localStorage.setItem('malla_ara_final', JSON.stringify(listaIDs));
+        localStorage.setItem('malla_ara_v3', JSON.stringify(listaIDs));
     }
 
     function cargarProgreso() {
-        const datosGuardados = localStorage.getItem('malla_ara_final');
+        const datosGuardados = localStorage.getItem('malla_ara_v3');
         if (datosGuardados) {
             JSON.parse(datosGuardados).forEach(id => {
                 const elemento = document.getElementById(id);
@@ -48,98 +127,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- LÓGICA DE REQUISITOS ---
-    function actualizarEstadoBloqueos() {
-        asignaturas.forEach(asignatura => {
-            const requisitos = asignatura.getAttribute('data-requisito');
-
-            if (requisitos) {
-                const listaRequisitos = requisitos.split(',');
-                let requisitosCumplidos = true;
-
-                listaRequisitos.forEach(reqID => {
-                    const idLimpio = reqID.trim();
-
-                    // CASO ESPECIAL: "NIVEL_X"
-                    if (idLimpio.startsWith('NIVEL_')) {
-                        const numeroNivel = parseInt(idLimpio.split('_')[1]); 
-                        if (!verificarNivelCompleto(numeroNivel)) {
-                            requisitosCumplidos = false;
-                        }
-                    } 
-                    // CASO NORMAL: ID DE RAMO
-                    else {
-                        const asignaturaRequisito = document.getElementById(idLimpio);
-                        if (!asignaturaRequisito || !asignaturaRequisito.classList.contains('aprobada')) {
-                            requisitosCumplidos = false;
-                        }
-                    }
-                });
-
-                if (!requisitosCumplidos) {
-                    asignatura.classList.add('bloqueada');
-                    asignatura.classList.remove('aprobada');
-                } else {
-                    asignatura.classList.remove('bloqueada');
-                }
-            }
-        });
-    }
-
-    // --- VERIFICADOR DE NIVELES ---
-    function verificarNivelCompleto(numeroNivel) {
-        // Nivel 1 = índice 0
-        const indice = numeroNivel - 1; 
-        
-        if (semestres[indice]) {
-            const ramosDelSemestre = semestres[indice].querySelectorAll('.asignatura');
-            let todoAprobado = true;
-            
-            ramosDelSemestre.forEach(ramo => {
-                if (!ramo.classList.contains('aprobada')) {
-                    todoAprobado = false;
-                }
-            });
-            return todoAprobado;
-        }
-        return false;
-    }
-
-    // --- ESTADÍSTICAS ---
+    // --- ESTADÍSTICAS VISUALES ---
     function actualizarProgreso() {
         let sctAprobados = 0;
-        const asignaturasAprobadas = document.querySelectorAll('.asignatura.aprobada');
+        const aprobadas = document.querySelectorAll('.asignatura.aprobada');
         
-        asignaturasAprobadas.forEach(asignatura => {
-            const sct = parseInt(asignatura.getAttribute('data-sct'));
-            if (!isNaN(sct)) sctAprobados += sct;
+        aprobadas.forEach(asig => {
+            const val = parseInt(asig.getAttribute('data-sct'));
+            if (!isNaN(val)) sctAprobados += val;
         });
         
-        if(contadorSCT) animateValue(contadorSCT, parseInt(contadorSCT.innerText), sctAprobados, 400);
+        if(contadorSCT) contadorSCT.innerText = sctAprobados;
         
-        const porcentajeSCT = (sctAprobados / totalSCT) * 100;
-        if(barraSCT) barraSCT.style.width = porcentajeSCT + "%";
+        const pctSCT = (sctAprobados / totalSCT) * 100;
+        if(barraSCT) barraSCT.style.width = pctSCT + "%";
 
         const totalRamos = asignaturas.length;
-        const ramosAprobados = asignaturasAprobadas.length;
-        const porcentajeMalla = totalRamos > 0 ? (ramosAprobados / totalRamos) * 100 : 0;
+        const numAprobados = aprobadas.length;
+        const pctMalla = totalRamos > 0 ? (numAprobados / totalRamos) * 100 : 0;
 
-        if(contadorPorcentaje) contadorPorcentaje.innerText = porcentajeMalla.toFixed(1) + "%";
-        if(ramosAprobadosTexto) ramosAprobadosTexto.innerText = ramosAprobados;
-        if(barraMalla) barraMalla.style.width = porcentajeMalla + "%";
-    }
-
-    function animateValue(obj, start, end, duration) {
-        if (start === end) return;
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            obj.innerText = Math.floor(progress * (end - start) + start);
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            }
-        };
-        window.requestAnimationFrame(step);
+        if(contadorPorcentaje) contadorPorcentaje.innerText = pctMalla.toFixed(1) + "%";
+        if(ramosAprobadosTexto) ramosAprobadosTexto.innerText = numAprobados;
+        if(barraMalla) barraMalla.style.width = pctMalla + "%";
     }
 });
