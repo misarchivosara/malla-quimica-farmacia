@@ -1,221 +1,255 @@
-/* --- Variables de Color Pastel Aesthetic --- */
+/* --- Variables de la Nueva Paleta "Pink Lover" --- */
 :root {
-    --pastel-azul: #d4e6f1;   /* Celeste pálido (Disciplinar) */
-    --pastel-amarillo: #fef9c3; /* Amarillo pastel (Profesional) */
-    --pastel-durazno: #fadec9;  /* Durazno (Gestión) */
-    --pastel-menta: #d1f2eb;   /* Menta pastel (Integral) */
+    /* ¡Todo es ROSA! Diferentes tonos para diferenciar */
+    --pink-bebe: #ffe4e9;      /* Disciplinar (Rosa suave) */
+    --pink-coral: #ffcfcc;     /* Profesional (Tono durazno/coral) */
+    --pink-nude: #fde2d9;      /* Gestión (Tono piel/nude) */
+    --pink-lavanda: #f6d6e5;   /* Integral (Rosado tirando a lila) */
     
-    --locked-gray: #e6e6e6;   /* Color para bloqueados */
-    --text-dark: #5a4a4f;     /* Gris cálido oscuro */
-    --text-light: #8c7b80;    /* Gris cálido claro */
+    --rose-gold: #e2a8b5;      /* Color para bordes "oro rosa" */
+    --fucsia-pop: #d84378;     /* Para títulos y acentos fuertes */
+    --texto-malva: #8e5c6d;    /* Color de texto principal (rosa oscuro elegante) */
+    
+    --locked-gray: #eadddf;    /* Gris rosáceo para lo bloqueado */
 }
 
-/* --- Estilos Generales --- */
+/* --- Estilos Generales Súper Femeninos --- */
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    /* Fondo degradado de nube rosada */
+    background: linear-gradient(135deg, #fff0f5 0%, #ffeef2 100%);
     margin: 0;
     padding: 30px;
-    color: var(--text-dark);
+    color: var(--texto-malva);
 }
 
-/* --- Header y Panel de Estadísticas --- */
+/* --- Header y Paneles --- */
 header {
     text-align: center;
     margin-bottom: 50px;
 }
 
 h1 {
-    color: #d8839d;
+    color: var(--fucsia-pop);
     font-weight: 700;
     margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(216, 67, 120, 0.1);
+    font-size: 2rem;
 }
 
+/* Panel de Estadísticas (Tarjetas flotantes) */
 .panel-stats {
     display: flex;
-    gap: 20px;
+    gap: 25px;
     justify-content: center;
     flex-wrap: wrap;
-    max-width: 800px;
-    margin: 0 auto 30px auto;
+    max-width: 850px;
+    margin: 0 auto 35px auto;
 }
 
 .stat-card {
-    background: white;
-    padding: 20px 25px;
-    border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(216, 131, 157, 0.1);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 25px;
+    border-radius: 25px;
+    /* Sombra rosa brillante */
+    box-shadow: 0 15px 35px rgba(255, 182, 193, 0.3);
     flex: 1;
-    min-width: 250px;
-    border: 1px solid rgba(255,255,255,0.8);
+    min-width: 260px;
+    border: 2px solid var(--rose-gold); /* Borde oro rosa */
+    backdrop-filter: blur(5px);
 }
 
 .stat-titulo {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-light);
+    letter-spacing: 1.5px;
+    color: var(--fucsia-pop);
     margin-bottom: 10px;
     font-weight: 600;
 }
 
 .stat-valor {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--text-dark);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--texto-malva);
     margin-bottom: 10px;
 }
 
-.stat-total {
-    font-size: 1rem;
-    color: #ccc;
-    font-weight: 400;
-}
+.stat-total { font-size: 1.1rem; color: #bda0a8; font-weight: 500; }
+.stat-detalle { margin-top: 10px; font-size: 0.85rem; color: var(--texto-malva); font-weight: 500; }
 
-.stat-detalle {
-    margin-top: 8px;
-    font-size: 0.8rem;
-    color: var(--text-light);
-}
-
-/* Barras de progreso */
+/* --- Barras de Progreso Rosadas --- */
 .barra-contenedor {
-    height: 10px;
-    background-color: #f0f0f0;
-    border-radius: 10px;
+    height: 14px;
+    background-color: #ffe4e9; /* Fondo rosa pálido */
+    border-radius: 15px;
     overflow: hidden;
     width: 100%;
+    padding: 2px;
+    border: 1px solid #fcdce1;
 }
 
 .barra-relleno {
     height: 100%;
     width: 0%;
-    transition: width 0.8s ease;
-    border-radius: 10px;
+    transition: width 0.8s ease-in-out;
+    border-radius: 15px;
 }
-.barra-relleno.azul { background: linear-gradient(90deg, #d4e6f1, #4299e1); }
-.barra-relleno.rosa { background: linear-gradient(90deg, #fad0c4, #ff9a9e); }
+/* Degradados de rosa para las barras */
+.barra-relleno.azul { background: linear-gradient(90deg, #ffc4d6, #ff8fb3); }
+.barra-relleno.rosa { background: linear-gradient(90deg, #ffb7c5, #ff6b9d); }
 
-/* Leyenda de Colores */
+/* --- Leyenda --- */
 .leyenda-colores {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;
     flex-wrap: wrap;
-    font-size: 0.85rem;
-    color: var(--text-light);
+    font-size: 0.9rem;
+    color: var(--texto-malva);
+    font-weight: 500;
+    background: rgba(255,255,255,0.6);
+    padding: 15px;
+    border-radius: 50px;
+    max-width: 600px;
+    margin: auto;
+    border: 1px solid var(--rose-gold);
 }
 .item-leyenda { display: flex; align-items: center; }
-.color-box { width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; }
-.color-box.azul { background: var(--pastel-azul); }
-.color-box.amarillo { background: var(--pastel-amarillo); }
-.color-box.durazno { background: var(--pastel-durazno); }
-.color-box.menta { background: var(--pastel-menta); }
+.color-box { width: 14px; height: 14px; border-radius: 50%; margin-right: 8px; border: 1px solid rgba(0,0,0,0.05); }
+/* Asignamos los nuevos colores rosa a la leyenda */
+.color-box.azul { background: var(--pink-bebe); }
+.color-box.amarillo { background: var(--pink-coral); }
+.color-box.durazno { background: var(--pink-nude); }
+.color-box.menta { background: var(--pink-lavanda); }
 
 /* --- Contenedor de la Malla --- */
 .contenedor-malla {
     display: flex;
-    gap: 25px;
+    gap: 30px;
     overflow-x: auto;
-    padding: 20px 10px 40px 10px;
+    padding: 25px 15px 50px 15px;
+    /* Scrollbar muy rosa */
     scrollbar-width: thin;
-    scrollbar-color: #d8839d #f0f0f0;
+    scrollbar-color: var(--fucsia-pop) #ffe4e9;
 }
 
 .semestre {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    min-width: 220px;
+    gap: 18px;
+    min-width: 230px;
+    background: rgba(255,255,255,0.5);
+    padding: 20px;
+    border-radius: 25px;
+    border: 1px solid #fae1e6;
 }
 
 h3 {
     text-align: center;
-    color: var(--text-light);
+    color: var(--fucsia-pop);
     text-transform: uppercase;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
 }
 
-/* --- Tarjetas de Asignaturas --- */
+/* --- Tarjetas de Asignaturas Aesthetic --- */
 .asignatura {
-    padding: 15px;
-    border-radius: 15px;
+    padding: 18px;
+    border-radius: 20px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote suave */
+    box-shadow: 0 5px 15px rgba(255, 192, 203, 0.2);
     position: relative;
-    min-height: 80px;
+    min-height: 85px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 2px solid transparent;
+    border: 2px solid transparent; /* Para que no salte al aprobar */
 }
 
 .asignatura:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(255, 105, 180, 0.3); /* Sombra rosa intensa al pasar mouse */
 }
 
 .codigo {
     font-size: 0.7rem;
-    font-weight: 600;
-    opacity: 0.8;
-    margin-bottom: 4px;
+    font-weight: 700;
+    opacity: 0.7;
+    margin-bottom: 5px;
+    text-transform: uppercase;
 }
 
 h4 {
     margin: 0;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-dark);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--texto-malva);
     line-height: 1.3;
 }
 
-/* --- Colores por Categoría --- */
-.asignatura.cat-disciplinar { background-color: var(--pastel-azul); color: #2c5282; }
-.asignatura.cat-disciplinar .codigo { color: #2b6cb0; }
+/* --- Asignación de COLORES ROSA por Categoría --- */
+/* Disciplinar (Rosa Bebé) */
+.asignatura.cat-disciplinar { background-color: var(--pink-bebe); color: #8e5c6d; }
+.asignatura.cat-disciplinar .codigo { color: #d84378; }
 
-.asignatura.cat-profesional { background-color: var(--pastel-amarillo); color: #744210; }
-.asignatura.cat-profesional .codigo { color: #d69e2e; }
+/* Profesional (Coral Rosado) */
+.asignatura.cat-profesional { background-color: var(--pink-coral); color: #945d5d; }
+.asignatura.cat-profesional .codigo { color: #e05a5a; }
 
-.asignatura.cat-gestion { background-color: var(--pastel-durazno); color: #7b341e; }
-.asignatura.cat-gestion .codigo { color: #dd6b20; }
+/* Gestión (Nude Rosado) */
+.asignatura.cat-gestion { background-color: var(--pink-nude); color: #9c6a5e; }
+.asignatura.cat-gestion .codigo { color: #d68c7a; }
 
-.asignatura.cat-integral { background-color: var(--pastel-menta); color: #234e52; }
-.asignatura.cat-integral .codigo { color: #319795; }
+/* Integral (Lavanda Rosado) */
+.asignatura.cat-integral { background-color: var(--pink-lavanda); color: #8a5e87; }
+.asignatura.cat-integral .codigo { color: #c96fbf; }
 
-/* --- Estado: APROBADA --- */
+
+/* --- Estado: APROBADA (¡Brillo rosado!) --- */
 .asignatura.aprobada {
-    border-color: #fff;
-    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.6), 0 5px 15px rgba(0,0,0,0.1);
-}
-.asignatura.aprobada::after {
-    content: '✓';
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    opacity: 0.5;
+    /* Borde brillante oro rosa */
+    border-color: var(--rose-gold);
+    background-image: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+    box-shadow: inset 0 0 15px rgba(255, 105, 180, 0.2), 0 10px 25px rgba(216, 67, 120, 0.2);
 }
 
-/* --- Estado: BLOQUEADA (Candado) --- */
+/* Icono de corazón brillante al aprobar */
+.asignatura.aprobada::after {
+    content: '💖'; /* Corazón con brillitos */
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 1.4rem;
+    animation: popIn 0.5s ease;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+/* --- Estado: BLOQUEADA (Candado suave) --- */
 .asignatura.bloqueada {
     background-color: var(--locked-gray) !important;
-    color: #a0a0a0 !important;
-    opacity: 0.8;
+    color: #b09a9f !important;
+    opacity: 0.7;
     pointer-events: none;
-    filter: grayscale(1);
+    filter: grayscale(0.2); /* Un poquito menos gris para que no se vea tan triste */
     box-shadow: none;
+    transform: scale(0.98);
 }
-.asignatura.bloqueada .codigo { color: #b0b0b0; }
+.asignatura.bloqueada .codigo { color: #c4adb3; }
 .asignatura.bloqueada::after {
     content: '🔒';
     position: absolute;
     top: 50%;
     right: 15px;
     transform: translateY(-50%);
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     opacity: 0.4;
+    filter: hue-rotate(320deg); /* Hacemos el candado un poco rosado */
 }
