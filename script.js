@@ -21,60 +21,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
             asignatura.classList.toggle('aprobada');
             
-            // Guardar, verificar semestres y actualizar
             guardarProgreso();
             actualizarEstadoBloqueos();
             actualizarProgreso();
         });
     });
 
-    // --- LÓGICA DE REQUISITOS (SOLUCIÓN FINAL) ---
+    // --- LÓGICA DE REQUISITOS (SOLUCIÓN MANUAL SEGURA) ---
     function actualizarEstadoBloqueos() {
         asignaturas.forEach(asignatura => {
             const requisitos = asignatura.getAttribute('data-requisito');
 
+            // Si no tiene requisitos, lo dejamos libre
             if (!requisitos) {
                 asignatura.classList.remove('bloqueada');
                 return;
             }
 
+            // Convertimos la lista larga de IDs en un array
             const listaRequisitos = requisitos.split(',');
             let cumpleTodo = true;
 
-            listaRequisitos.forEach(req => {
-                const idLimpio = req.trim();
+            listaRequisitos.forEach(reqID => {
+                const idLimpio = reqID.trim();
+                const ramoRequerido = document.getElementById(idLimpio);
 
-                // CASO 1: REQUISITO DE SEMESTRE COMPLETO (Ej: "SEMESTRE_6")
-                if (idLimpio.startsWith('SEMESTRE_')) {
-                    const numeroSemestre = idLimpio.split('_')[1]; // Saca el número 6
-                    
-                    // Busca la caja del semestre por su ID
-                    const semestreDiv = document.getElementById('semestre-' + numeroSemestre);
-                    
-                    if (semestreDiv) {
-                        // Revisa si TODOS los ramos de ese semestre están aprobados
-                        const ramosDelSemestre = semestreDiv.querySelectorAll('.asignatura');
-                        let semestreCompleto = true;
-                        
-                        ramosDelSemestre.forEach(ramo => {
-                            if (!ramo.classList.contains('aprobada')) {
-                                semestreCompleto = false;
-                            }
-                        });
-
-                        if (!semestreCompleto) cumpleTodo = false;
-                    }
-                } 
-                // CASO 2: REQUISITO DE RAMO ESPECÍFICO (Ej: "DQUI1045")
-                else {
-                    const ramoReq = document.getElementById(idLimpio);
-                    if (!ramoReq || !ramoReq.classList.contains('aprobada')) {
-                        cumpleTodo = false;
-                    }
+                // Si el ramo requerido NO existe o NO está aprobado, fallamos
+                if (!ramoRequerido || !ramoRequerido.classList.contains('aprobada')) {
+                    cumpleTodo = false;
                 }
             });
 
-            // APLICAR CANDADO
+            // Aplicar el candado
             if (!cumpleTodo) {
                 asignatura.classList.add('bloqueada');
                 asignatura.classList.remove('aprobada'); 
@@ -90,11 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.asignatura.aprobada').forEach(elemento => {
             if (elemento.id) listaIDs.push(elemento.id);
         });
-        localStorage.setItem('malla_ara_final_v2', JSON.stringify(listaIDs));
+        localStorage.setItem('malla_ara_manual', JSON.stringify(listaIDs));
     }
 
     function cargarProgreso() {
-        const datosGuardados = localStorage.getItem('malla_ara_final_v2');
+        const datosGuardados = localStorage.getItem('malla_ara_manual');
         if (datosGuardados) {
             JSON.parse(datosGuardados).forEach(id => {
                 const elemento = document.getElementById(id);
