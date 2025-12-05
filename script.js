@@ -1,76 +1,54 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Definimos las variables principales
+    // --- VARIABLES ---
     const asignaturas = document.querySelectorAll('.asignatura');
+    const semestres = document.querySelectorAll('.semestre'); // Para leer niveles
     const contadorSCT = document.getElementById('contador-sct');
     const barraSCT = document.getElementById('progreso-sct');
     const contadorPorcentaje = document.getElementById('contador-porcentaje');
     const barraMalla = document.getElementById('progreso-malla');
     const ramosAprobadosTexto = document.getElementById('ramos-aprobados');
     
-    const totalSCT = 300; // Ajusta este número si tu malla tiene otro total
+    const totalSCT = 300; 
 
-    // 2. ¡IMPORTANTE! Primero cargamos la memoria
-    cargarProgreso();
+    // --- INICIALIZACIÓN ---
+    cargarProgreso();            // 1. Recuperar memoria
+    actualizarEstadoBloqueos();  // 2. Revisar candados
+    actualizarProgreso();        // 3. Calcular barras
 
-    // 3. Calculamos todo lo demás
-    actualizarEstadoBloqueos();
-    actualizarProgreso();
-
-    // 4. Asignamos los clicks
+    // --- EVENTOS CLICK ---
     asignaturas.forEach(asignatura => {
         asignatura.addEventListener('click', () => {
-            // Si tiene candado, no hacemos nada
             if (asignatura.classList.contains('bloqueada')) return;
 
-            // Marcamos o desmarcamos
             asignatura.classList.toggle('aprobada');
             
-            // GUARDAMOS INMEDIATAMENTE
+            // Guardar y Actualizar todo
             guardarProgreso();
-            
-            // Actualizamos visuales
             actualizarEstadoBloqueos();
             actualizarProgreso();
         });
     });
 
-    // --- FUNCIONES DE MEMORIA (MAGIA) ---
-
+    // --- MEMORIA (LocalStorage) ---
     function guardarProgreso() {
         const listaIDs = [];
-        const asignaturasAprobadas = document.querySelectorAll('.asignatura.aprobada');
-
-        asignaturasAprobadas.forEach(elemento => {
-            // Solo guardamos si tiene ID (Evita errores)
-            if (elemento.id) {
-                listaIDs.push(elemento.id);
-            }
+        document.querySelectorAll('.asignatura.aprobada').forEach(elemento => {
+            if (elemento.id) listaIDs.push(elemento.id);
         });
-
-        // Guardamos en la memoria del navegador
-        localStorage.setItem('malla_ara_v1', JSON.stringify(listaIDs));
-        console.log("Progreso guardado:", listaIDs); // Para verificar en consola
+        localStorage.setItem('malla_ara_final', JSON.stringify(listaIDs));
     }
 
     function cargarProgreso() {
-        // Buscamos si hay algo guardado
-        const datosGuardados = localStorage.getItem('malla_ara_v1');
-        
+        const datosGuardados = localStorage.getItem('malla_ara_final');
         if (datosGuardados) {
-            const listaIDs = JSON.parse(datosGuardados);
-            
-            // Recorremos la lista guardada y marcamos los ramos
-            listaIDs.forEach(id => {
+            JSON.parse(datosGuardados).forEach(id => {
                 const elemento = document.getElementById(id);
-                if (elemento) {
-                    elemento.classList.add('aprobada');
-                }
+                if (elemento) elemento.classList.add('aprobada');
             });
         }
     }
 
-    // --- FUNCIONES DE LÓGICA ---
-
+    // --- LÓGICA DE REQUISITOS ---
     function actualizarEstadoBloqueos() {
         asignaturas.forEach(asignatura => {
             const requisitos = asignatura.getAttribute('data-requisito');
@@ -80,18 +58,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 let requisitosCumplidos = true;
 
                 listaRequisitos.forEach(reqID => {
-                    const idLimpio = reqID.trim(); // Quitamos espacios extra
-                    const asignaturaRequisito = document.getElementById(idLimpio);
-                    
-                    // Si el requisito no existe o no está aprobado
-                    if (!asignaturaRequisito || !asignaturaRequisito.classList.contains('aprobada')) {
-                        requisitosCumplidos = false;
+                    const idLimpio = reqID.trim();
+
+                    // CASO ESPECIAL: "NIVEL_X"
+                    if (idLimpio.startsWith('NIVEL_')) {
+                        const numeroNivel = parseInt(idLimpio.split('_')[1]); 
+                        if (!verificarNivelCompleto(numeroNivel)) {
+                            requisitosCumplidos = false;
+                        }
+                    } 
+                    // CASO NORMAL: ID DE RAMO
+                    else {
+                        const asignaturaRequisito = document.getElementById(idLimpio);
+                        if (!asignaturaRequisito || !asignaturaRequisito.classList.contains('aprobada')) {
+                            requisitosCumplidos = false;
+                        }
                     }
                 });
 
                 if (!requisitosCumplidos) {
                     asignatura.classList.add('bloqueada');
-                    asignatura.classList.remove('aprobada'); // Si se bloquea, se desmarca
+                    asignatura.classList.remove('aprobada');
                 } else {
                     asignatura.classList.remove('bloqueada');
                 }
@@ -99,20 +86,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- VERIFICADOR DE NIVELES ---
+    function verificarNivelCompleto(numeroNivel) {
+        // Nivel 1 = índice 0
+        const indice = numeroNivel - 1; 
+        
+        if (semestres[indice]) {
+            const ramosDelSemestre = semestres[indice].querySelectorAll('.asignatura');
+            let todoAprobado = true;
+            
+            ramosDelSemestre.forEach(ramo => {
+                if (!ramo.classList.contains('aprobada')) {
+                    todoAprobado = false;
+                }
+            });
+            return todoAprobado;
+        }
+        return false;
+    }
+
+    // --- ESTADÍSTICAS ---
     function actualizarProgreso() {
         let sctAprobados = 0;
         const asignaturasAprobadas = document.querySelectorAll('.asignatura.aprobada');
         
         asignaturasAprobadas.forEach(asignatura => {
-            // Verificamos que el data-sct exista para que no de error
             const sct = parseInt(asignatura.getAttribute('data-sct'));
-            if (!isNaN(sct)) {
-                sctAprobados += sct;
-            }
+            if (!isNaN(sct)) sctAprobados += sct;
         });
         
-        // Animación y Barras
-        if(contadorSCT) contadorSCT.innerText = sctAprobados;
+        if(contadorSCT) animateValue(contadorSCT, parseInt(contadorSCT.innerText), sctAprobados, 400);
         
         const porcentajeSCT = (sctAprobados / totalSCT) * 100;
         if(barraSCT) barraSCT.style.width = porcentajeSCT + "%";
@@ -124,5 +127,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if(contadorPorcentaje) contadorPorcentaje.innerText = porcentajeMalla.toFixed(1) + "%";
         if(ramosAprobadosTexto) ramosAprobadosTexto.innerText = ramosAprobados;
         if(barraMalla) barraMalla.style.width = porcentajeMalla + "%";
+    }
+
+    function animateValue(obj, start, end, duration) {
+        if (start === end) return;
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            obj.innerText = Math.floor(progress * (end - start) + start);
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
     }
 });
