@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla QyF - Ara</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>✨ Mi Camino en Química y Farmacia ✨</h1>
+        
+        <div class="panel-stats">
+            <div class="stat-card">
+                <div class="stat-titulo">Créditos SCT</div>
+                <div class="stat-valor">
+                    <span id="contador-sct">0</span> <span class="stat-total">/ 300</span>
+                </div>
+                <div class="barra-contenedor">
+                    <div id="progreso-sct" class="barra-relleno azul"></div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-titulo">Avance Carrera</div>
+                <div class="stat-valor">
+                    <span id="contador-porcentaje">0%</span>
+                </div>
+                <div class="barra-contenedor">
+                    <div id="progreso-malla" class="barra-relleno rosa"></div>
+                </div>
+                <div class="stat-detalle">
+                    <span id="ramos-aprobados">0</span> ramos completados
+                </div>
+            </div>
+        </div>
+
+        <div class="leyenda-colores">
+            <div class="item-leyenda"><span class="color-box azul"></span>Disciplinar</div>
+            <div class="item-leyenda"><span class="color-box amarillo"></span>Profesional</div>
+            <div class="item-leyenda"><span class="color-box durazno"></span>Gestión/Empl.</div>
+            <div class="item-leyenda"><span class="color-box menta"></span>Integral</div>
+        </div>
+    </header>
+
+    <main class="contenedor-malla">
+        
+        <div class="semestre">
+            <h3>Semestre 01</h3>
+            <div id="DQUI1045" class="asignatura cat-disciplinar" data-sct="8" onclick="toggleAsignatura(this)">
+                <div class="codigo">DQUI 1045</div>
+                <h4>Química General I</h4>
+            </div>
+            <div id="DCEX0002" class="asignatura cat-disciplinar" data-sct="7" onclick="toggleAsignatura(this)">
+                <div class="codigo">DCEX 0002</div>
+                <h4>Matemática</h4>
+            </div>
+            <div id="DBIO1091" class="asignatura cat-disciplinar" data-sct="5" onclick="toggleAsignatura(this)">
+                <div class="codigo">DBIO 1091</div>
+                <h4>Biología Celular</h4>
+            </div>
+            <div id="QYFAA001" class="asignatura cat-profesional" data-sct="4" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA A001</div>
+                <h4>Intro. Ciencias Farm.</h4>
+            </div>
+            <div id="QYFAA002" class="asignatura cat-profesional" data-sct="3" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA A002</div>
+                <h4>Integrado Habilidades</h4>
+            </div>
+            <div id="FORI0001" class="asignatura cat-integral" data-sct="3" onclick="toggleAsignatura(this)">
+                <div class="codigo">FORI 0001</div>
+                <h4>Antropología</h4>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h3>Semestre 02</h3>
+            <div id="DQUI1046" class="asignatura cat-disciplinar" data-sct="8" data-requisito="DQUI1045" onclick="toggleAsignatura(this)">
+                <div class="codigo">DQUI 1046</div>
+                <h4>Química General II</h4>
+            </div>
+            <div id="DCEX0003" class="asignatura cat-disciplinar" data-sct="5" data-requisito="DCEX0002" onclick="toggleAsignatura(this)">
+                <div class="codigo">DCEX 0003</div>
+                <h4>Cálculo Diferencial</h4>
+            </div>
+            <div id="DCEX0019" class="asignatura cat-disciplinar" data-sct="5" data-requisito="DCEX0002" onclick="toggleAsignatura(this)">
+                <div class="codigo">DCEX 0019</div>
+                <h4>Física</h4>
+            </div>
+            <div id="DCEX0005" class="asignatura cat-disciplinar" data-sct="5" data-requisito="DCEX0002" onclick="toggleAsignatura(this)">
+                <div class="codigo">DCEX 0005</div>
+                <h4>Bioestadística</h4>
+            </div>
+            <div id="QYFAB001" class="asignatura cat-profesional" data-sct="4" data-requisito="QYFAA001" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA B001</div>
+                <h4>Fund. Quehacer Farm.</h4>
+            </div>
+            <div id="FORI0002" class="asignatura cat-integral" data-sct="3" data-requisito="FORI0001" onclick="toggleAsignatura(this)">
+                <div class="codigo">FORI 0002</div>
+                <h4>Ética</h4>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h3>Semestre 03</h3>
+            <div id="DQUI1053" class="asignatura cat-disciplinar" data-sct="6" data-requisito="DQUI1046" onclick="toggleAsignatura(this)">
+                <div class="codigo">DQUI 1053</div>
+                <h4>Fisicoquímica</h4>
+            </div>
+            <div id="DQUI1047" class="asignatura cat-disciplinar" data-sct="6" data-requisito="DQUI1046" onclick="toggleAsignatura(this)">
+                <div class="codigo">DQUI 1047</div>
+                <h4>Química Analítica</h4>
+            </div>
+            <div id="DQUI1052" class="asignatura cat-disciplinar" data-sct="5" data-requisito="DQUI1045" onclick="toggleAsignatura(this)">
+                <div class="codigo">DQUI 1052</div>
+                <h4>Química Orgánica</h4>
+            </div>
+            <div id="DBIO1085" class="asignatura cat-disciplinar" data-sct="5" data-requisito="DBIO1091" onclick="toggleAsignatura(this)">
+                <div class="codigo">DBIO 1085</div>
+                <h4>Fisiología Integrada</h4>
+            </div>
+            <div id="DSPU0012" class="asignatura cat-disciplinar" data-sct="4" onclick="toggleAsignatura(this)">
+                <div class="codigo">DSPU 0012</div>
+                <h4>Salud Poblacional</h4>
+            </div>
+            <div id="ELECDGEE01" class="asignatura cat-gestion" data-sct="4" onclick="toggleAsignatura(this)">
+                <div class="codigo">ELECDGEE</div>
+                <h4>Gestión Personal</h4>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h3>Semestre 04</h3>
+            <div id="DBIO1094" class="asignatura cat-disciplinar" data-sct="6" data-requisito="DQUI1052" onclick="toggleAsignatura(this)">
+                <div class="codigo">DBIO 1094</div>
+                <h4>Bioquímica General</h4>
+            </div>
+            <div id="DQUI1054" class="asignatura cat-disciplinar" data-sct="6" data-requisito="DQUI1047" onclick="toggleAsignatura(this)">
+                <div class="codigo">DQUI 1054</div>
+                <h4>Análisis Instrumental</h4>
+            </div>
+            <div id="DQUI1055" class="asignatura cat-disciplinar" data-sct="5" data-requisito="DQUI1052" onclick="toggleAsignatura(this)">
+                <div class="codigo">DQUI 1055</div>
+                <h4>Orgánica Avanzada</h4>
+            </div>
+            <div id="DMOR0019" class="asignatura cat-disciplinar" data-sct="5" data-requisito="DBIO1085" onclick="toggleAsignatura(this)">
+                <div class="codigo">DMOR 0019</div>
+                <h4>Fisiopatología</h4>
+            </div>
+            <div id="DSPU0014" class="asignatura cat-disciplinar" data-sct="4" data-requisito="DSPU0012" onclick="toggleAsignatura(this)">
+                <div class="codigo">DSPU 0014</div>
+                <h4>Epidemiología</h4>
+            </div>
+            <div id="QYFAD001" class="asignatura cat-profesional" data-sct="4" data-requisito="QYFAB001" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA D001</div>
+                <h4>Hito Integrativo</h4>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h3>Semestre 05</h3>
+            <div id="DBIO1087" class="asignatura cat-disciplinar" data-sct="7" data-requisito="DMOR0019" onclick="toggleAsignatura(this)">
+                <div class="codigo">DBIO 1087</div>
+                <h4>Farmacología I</h4>
+            </div>
+            <div id="DBIO1095" class="asignatura cat-disciplinar" data-sct="6" data-requisito="DBIO1094" onclick="toggleAsignatura(this)">
+                <div class="codigo">DBIO 1095</div>
+                <h4>Microbiología Gen.</h4>
+            </div>
+            <div id="FACU0004" class="asignatura cat-disciplinar" data-sct="3" onclick="toggleAsignatura(this)">
+                <div class="codigo">FACU 0004</div>
+                <h4>Salud Digital</h4>
+            </div>
+            <div id="QYFAE001" class="asignatura cat-profesional" data-sct="6" data-requisito="DQUI1053" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA E001</div>
+                <h4>Tecnología Farm. I</h4>
+            </div>
+            <div id="QYFAE002" class="asignatura cat-profesional" data-sct="5" data-requisito="DQUI1055" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA E002</div>
+                <h4>Química Farm. I</h4>
+            </div>
+            <div id="FORI0003" class="asignatura cat-integral" data-sct="3" data-requisito="FORI0002" onclick="toggleAsignatura(this)">
+                <div class="codigo">FORI 0003</div>
+                <h4>Persona y Sociedad</h4>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h3>Semestre 06</h3>
+            <div id="DBIO1096" class="asignatura cat-disciplinar" data-sct="7" data-requisito="DBIO1087" onclick="toggleAsignatura(this)">
+                <div class="codigo">DBIO 1096</div>
+                <h4>Farmacología II</h4>
+            </div>
+            <div id="DEBI0002" class="asignatura cat-disciplinar" data-sct="3" onclick="toggleAsignatura(this)">
+                <div class="codigo">DEBI 0002</div>
+                <h4>Bioética</h4>
+            </div>
+            <div id="QYFAF001" class="asignatura cat-profesional" data-sct="6" data-requisito="QYFAE001" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA F001</div>
+                <h4>Tecnología Farm. II</h4>
+            </div>
+            <div id="QYFAF002" class="asignatura cat-profesional" data-sct="6" data-requisito="QYFAE002" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA F002</div>
+                <h4>Química Farm. II</h4>
+            </div>
+            <div id="QYFAF003" class="asignatura cat-profesional" data-sct="5" data-requisito="DBIO1087" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA F003</div>
+                <h4>Práctica I</h4>
+            </div>
+            <div id="ELECFORI01" class="asignatura cat-integral" data-sct="3" onclick="toggleAsignatura(this)">
+                <div class="codigo">ELECFORI</div>
+                <h4>Electivo Integral I</h4>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h3>Semestre 07</h3>
+            <div id="QYFAG001" class="asignatura cat-profesional" data-sct="7" data-requisito="DBIO1096" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA G001</div>
+                <h4>Farmacia Clínica I</h4>
+            </div>
+            <div id="QYFAG002" class="asignatura cat-profesional" data-sct="6" data-requisito="QYFAF002" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA G002</div>
+                <h4>Farmacognosia</h4>
+            </div>
+            <div id="QYFAG003" class="asignatura cat-profesional" data-sct="5" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA G003</div>
+                <h4>Control Calidad</h4>
+            </div>
+            <div id="QYFAG004" class="asignatura cat-profesional" data-sct="5" data-requisito="QYFAF001" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA G004</div>
+                <h4>Legislación Farm.</h4>
+            </div>
+            <div id="DSPU0011" class="asignatura cat-disciplinar" data-sct="4" onclick="toggleAsignatura(this)">
+                <div class="codigo">DSPU 0011</div>
+                <h4>Metodología Inv.</h4>
+            </div>
+            <div id="ELECFORI02" class="asignatura cat-integral" data-sct="3" onclick="toggleAsignatura(this)">
+                <div class="codigo">ELECFORI</div>
+                <h4>Electivo Integral II</h4>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h3>Semestre 08</h3>
+            <div id="QYFAH002" class="asignatura cat-profesional" data-sct="7" data-requisito="QYFAG001" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA H002</div>
+                <h4>Farmacia Clínica II</h4>
+            </div>
+            <div id="QYFAH003" class="asignatura cat-profesional" data-sct="5" data-requisito="QYFAG003" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA H003</div>
+                <h4>Biofarmacia</h4>
+            </div>
+            <div id="QYFAH006" class="asignatura cat-profesional" data-sct="5" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA H006</div>
+                <h4>Farmacia Asistencial</h4>
+            </div>
+            <div id="QYFAH004" class="asignatura cat-profesional" data-sct="5" data-requisito="QYFAG004" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA H004</div>
+                <h4>Práctica II</h4>
+            </div>
+            <div id="QYFAH001" class="asignatura cat-profesional" data-sct="4" data-requisito="DBIO1096" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA H001</div>
+                <h4>Toxicología</h4>
+            </div>
+            <div id="QYFAH005" class="asignatura cat-profesional" data-sct="4" data-requisito="QYFAG001,QYFAG002" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA H005</div>
+                <h4>Hito Integrativo Pro</h4>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h3>Semestre 09</h3>
+            <div id="QYFAI001" class="asignatura cat-profesional" data-sct="7" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA I001</div>
+                <h4>Gestión y Mktg</h4>
+            </div>
+            <div id="QYFAI002" class="asignatura cat-profesional" data-sct="7" onclick="toggleAsignatura(this)">
+                <div class="codigo">QYFA I002</div>
+                <h4>Farmacovigilancia</h4>
+            </div>
+            <div id="ELECQYFA01" class="asignatura cat-profesional" data-sct="4" onclick="toggleAsignatura(this)">
+                <div class="codigo">ELEC</div>
+                <h4>Electivo Prof. I</h4>
+            </div>
+            <div id="ELECQYFA02" class="asignatura cat-profesional" data-sct="4" onclick="toggleAsignatura(this)">
+                <div class="codigo">ELEC</div>
+                <h4>Electivo Prof. II</h4>
+            </div>
+            <div id="ELECQYFA03" class="asignatura cat-profesional" data-sct="4" onclick="toggleAsignatura(this)">
+                <div class="codigo">ELEC</div>
+                <h4>Electivo Prof. III</h4>
+            </div>
+            <div id="ELECFORI03" class="asignatura cat-integral" data-sct="4" onclick="toggleAsignatura(this)">
+                <div class="codigo">ELECFORI</div>
+                <h4>Electivo Integral III</h4>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h3>Semestre 10</h3>
+            <div id="QYFAJ001" class="asignatura cat-profesional" data-sct="30" data-requisito="QYFAI001,QYFAI002,QYFAH005" onclick="toggleAsignatura(this)" style="min-height: 200px; justify-content: center; background: #fff0f5;">
+                <div class="codigo">QYFA J001</div>
+                <h4 style="font-size: 1.2rem; color: #d8839d;">Internado Profesional</h4>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
